@@ -1,6 +1,7 @@
 package com.euntaek.pokeshop.feature.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -47,17 +48,20 @@ import com.euntaek.pokeshop.core.model.Pokemon
 
 @Composable
 internal fun HomeScreen(
-    onPokemonClick: (Pokemon) -> Unit, //TODO
+    onPokemonClick: (Pokemon) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val pokemonList = homeViewModel.pokemonPagingList.collectAsLazyPagingItems()
-    HomeContent(pokemons = pokemonList)
+    HomeContent(pokemons = pokemonList, onPokemonClick = onPokemonClick)
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeContent(pokemons: LazyPagingItems<Pokemon>) {
+private fun HomeContent(
+    pokemons: LazyPagingItems<Pokemon>,
+    onPokemonClick: (Pokemon) -> Unit
+) {
     LaunchedEffect(key1 = pokemons.loadState) {
         if (pokemons.loadState.refresh is LoadState.Error) {
             //TODO "Error: " + (pokemons.loadState.refresh as LoadState.Error).error.message,
@@ -82,7 +86,9 @@ private fun HomeContent(pokemons: LazyPagingItems<Pokemon>) {
                 ) { index ->
                     val pokemon = pokemons[index]
                     if (pokemon != null) {
-                        PokemonItem(pokemon = pokemon)
+                        PokemonItem(pokemon = pokemon) {
+                            onPokemonClick(pokemon)
+                        }
                     }
                 }
                 item {
@@ -96,10 +102,9 @@ private fun HomeContent(pokemons: LazyPagingItems<Pokemon>) {
 }
 
 @Composable
-private fun PokemonItem(pokemon: Pokemon) {
+private fun PokemonItem(pokemon: Pokemon, onClick: () -> Unit) {
     var palette: Palette? by remember { mutableStateOf(null) }
-
-    PokemonItemLayout(palette = palette) {
+    PokemonItemLayout(palette = palette, onClick = onClick) {
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -128,17 +133,22 @@ private fun PokemonItem(pokemon: Pokemon) {
     }
 }
 
-
 @Composable
-private fun PokemonItemLayout(palette: Palette?, content: @Composable BoxScope.() -> Unit) {
+private fun PokemonItemLayout(
+    palette: Palette?,
+    onClick: () -> Unit,
+    content: @Composable BoxScope.() -> Unit
+) {
     Card(
-        modifier = Modifier.aspectRatio(0.75f),
+        modifier = Modifier
+            .aspectRatio(0.75f),
         shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .clickable(onClick = onClick)
                 .background(color = Color.White)
         ) {
             if (palette != null) {
