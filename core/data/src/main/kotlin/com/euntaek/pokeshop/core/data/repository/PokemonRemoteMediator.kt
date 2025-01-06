@@ -11,7 +11,6 @@ import com.euntaek.pokeshop.core.network.model.NetworkPage
 import com.euntaek.pokeshop.core.network.model.NetworkPokemon
 import com.euntaek.pokeshop.core.network.service.PokemonService
 import retrofit2.HttpException
-import timber.log.Timber
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -41,20 +40,17 @@ class PokemonRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, PokemonEntity>
     ): MediatorResult {
-        Timber.e("loadType : " + loadType.name)
         return try {
             when (loadType) {
                 LoadType.PREPEND -> MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.REFRESH -> {
                     currentPage = 0
-                    Timber.e("currentPage : " + currentPage)
                     val result = refresh(pageSize = state.config.pageSize)
                     currentPage++
                     result
                 }
 
                 LoadType.APPEND -> {
-                    Timber.e("currentPage : " + currentPage)
                     val result = load(
                         pageSize = state.config.pageSize,
                         offset = currentPage * state.config.pageSize
@@ -64,10 +60,8 @@ class PokemonRemoteMediator(
                 }
             }
         } catch (e: IOException) {
-            Timber.e("IOException : " + e.message)
             MediatorResult.Error(e)
         } catch (e: HttpException) {
-            Timber.e("HttpException : " + e.message)
             MediatorResult.Error(e)
         }
     }
