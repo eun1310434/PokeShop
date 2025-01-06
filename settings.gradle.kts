@@ -42,3 +42,5 @@ include(":core:domain")
 include(":core:testing")
 
 include(":feature:home")
+include(":feature:pokemondetails")
+include(":core:navigation")

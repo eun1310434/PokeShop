@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.euntaek.pokeshop.feature.home"
+    namespace = "com.euntaek.pokeshop.feature.pokemondetails"
 }
 
 dependencies {

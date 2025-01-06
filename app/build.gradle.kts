@@ -32,6 +32,7 @@ android {
 
 dependencies {
     implementation(projects.feature.home)
+    implementation(projects.feature.pokemondetails)
 
     implementation(projects.core.common)
     implementation(projects.core.designsystem)

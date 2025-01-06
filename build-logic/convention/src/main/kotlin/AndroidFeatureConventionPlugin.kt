@@ -22,11 +22,9 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             dependencies {
                 "implementation"(project(":core:data"))
                 "implementation"(project(":core:designsystem"))
-                "implementation"(findLibrary(id = LibraryID.ANDROIDX_HILT_NAVIGATION_COMPOSE))
+                "implementation"(project(":core:navigation"))
                 "implementation"(findLibrary(id = LibraryID.ANDROIDX_LIFECYCLE_RUN_TIME_COMPOSE))
                 "implementation"(findLibrary(id = LibraryID.ANDROIDX_LIFECYCLE_VIEW_MODEL_COMPOSE))
-                "implementation"(findLibrary(id = LibraryID.ANDROIDX_NAVIGATION_COMPOSE))
-                "implementation"(findLibrary(id = LibraryID.KOTLINX_SERIALIZATION_JSON))
             }
         }
     }
