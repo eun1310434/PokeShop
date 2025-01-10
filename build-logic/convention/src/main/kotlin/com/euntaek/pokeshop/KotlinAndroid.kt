@@ -60,23 +60,17 @@ private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
     }.apply {
         jvmTarget = JvmTarget.fromTarget(javaVersion.majorVersion)
         allWarningsAsErrors = warningsAsErrors.toBoolean()
-        freeCompilerArgs.add(
+        freeCompilerArgs.addAll(
+            // Enabled context receivers
+            "-Xcontext-receivers",
+            // Enabled Requires opt in, https://kotlinlang.org/docs/opt-in-requirements.html#opt-in-a-module
+            "-opt-in=kotlin.RequiresOptIn",
             // Enable experimental coroutines APIs, including Flow
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-        )
-        freeCompilerArgs.add(
-            /**
-             * Remove this args after Phase 3.
-             * https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-consistent-copy-visibility/#deprecation-timeline
-             *
-             * Deprecation timeline
-             * Phase 3. (Supposedly Kotlin 2.2 or Kotlin 2.3).
-             * The default changes.
-             * Unless ExposedCopyVisibility is used, the generated 'copy' method has the same visibility as the primary constructor.
-             * The binary signature changes. The error on the declaration is no longer reported.
-             * '-Xconsistent-data-class-copy-visibility' compiler flag and ConsistentCopyVisibility annotation are now unnecessary.
-             */
-            "-Xconsistent-data-class-copy-visibility"
+            // Enable experimental compose APIs
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi",
+            "-opt-in=androidx.compose.animation.ExperimentalSharedTransitionApi"
         )
     }
 }
