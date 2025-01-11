@@ -1,5 +1,6 @@
 package com.euntaek.pokeshop.feature.pokemondetails
 
+import androidx.compose.animation.SharedTransitionScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -22,8 +23,9 @@ fun NavController.navigateToPokemonDetails(pokemon: Pokemon) {
     navigate(route = PokemonDetailsRoute(pokemon = pokemon))
 }
 
+context(SharedTransitionScope)
 fun NavGraphBuilder.pokemonDetailsSection() {
     composable<PokemonDetailsRoute>(typeMap = PokemonDetailsRoute.typeMap) {
-        PokemonDetailsScreen()
+        PokemonDetailsScreen(animatedVisibilityScope = this@composable)
     }
 }

@@ -89,3 +89,8 @@ fun Palette.toBrush(defaultColor: Color) = Brush.horizontalGradient(
         this.dominantSwatch?.let { Color(it.rgb) } ?: defaultColor
     )
 )
+
+
+@Composable
+fun Palette?.getDominantColor(defaultColor: Color = Color.White) =
+    this?.dominantSwatch?.let { Color(it.rgb) } ?: defaultColor

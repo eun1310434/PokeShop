@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.euntaek.pokeshop.core.model.Pokemon
+import java.util.Locale
 
 @Entity(tableName = "pokemons")
 data class PokemonEntity(
@@ -17,7 +18,7 @@ data class PokemonEntity(
 
 fun PokemonEntity.asPokemon() = Pokemon(
     id = this.id,
-    name = this.name,
+    name = this.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
     url = this.url,
     imageUrl = this.imageUrl,
     gifUrl = this.gifUrl

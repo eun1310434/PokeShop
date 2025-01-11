@@ -1,5 +1,7 @@
 package com.euntaek.pokeshop.feature.home
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +22,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -42,23 +44,30 @@ import androidx.paging.compose.itemKey
 import androidx.palette.graphics.Palette
 import com.euntaek.pokeshop.core.designsystem.component.CachedAsyncImage
 import com.euntaek.pokeshop.core.designsystem.component.PokeShopText
+import com.euntaek.pokeshop.core.designsystem.component.PokemonSharedElementType
+import com.euntaek.pokeshop.core.designsystem.component.pokemonSharedBounds
 import com.euntaek.pokeshop.core.designsystem.theme.toBrush
 import com.euntaek.pokeshop.core.designsystem.util.isLandScape
 import com.euntaek.pokeshop.core.model.Pokemon
 
 @Composable
-internal fun HomeScreen(
+internal fun SharedTransitionScope.HomeScreen(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onPokemonClick: (Pokemon) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val pokemonList = homeViewModel.pokemonPagingList.collectAsLazyPagingItems()
-    HomeContent(pokemons = pokemonList, onPokemonClick = onPokemonClick)
+    HomeContent(
+        animatedVisibilityScope = animatedVisibilityScope,
+        pokemons = pokemonList,
+        onPokemonClick = onPokemonClick
+    )
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeContent(
+private fun SharedTransitionScope.HomeContent(
+    animatedVisibilityScope: AnimatedVisibilityScope,
     pokemons: LazyPagingItems<Pokemon>,
     onPokemonClick: (Pokemon) -> Unit
 ) {
@@ -86,7 +95,10 @@ private fun HomeContent(
                 ) { index ->
                     val pokemon = pokemons[index]
                     if (pokemon != null) {
-                        PokemonItem(pokemon = pokemon) {
+                        PokemonItem(
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            pokemon = pokemon
+                        ) {
                             onPokemonClick(pokemon)
                         }
                     }
@@ -102,7 +114,11 @@ private fun HomeContent(
 }
 
 @Composable
-private fun PokemonItem(pokemon: Pokemon, onClick: () -> Unit) {
+private fun SharedTransitionScope.PokemonItem(
+    animatedVisibilityScope: AnimatedVisibilityScope,
+    pokemon: Pokemon,
+    onClick: () -> Unit
+) {
     var palette: Palette? by remember { mutableStateOf(null) }
     PokemonItemLayout(palette = palette, onClick = onClick) {
         Column(
@@ -114,7 +130,13 @@ private fun PokemonItem(pokemon: Pokemon, onClick: () -> Unit) {
             CachedAsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(),
+                    .wrapContentHeight()
+                    .pokemonSharedBounds(
+                        pokemonId = pokemon.id,
+                        type = PokemonSharedElementType.IMAGE,
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        enabled = LocalInspectionMode.current
+                    ),
                 placeholderDrawableResId = com.euntaek.pokeshop.core.designsystem.R.drawable.pokeball,
                 imageURL = pokemon.imageUrl,
                 onPalette = { palette = it }
@@ -122,7 +144,14 @@ private fun PokemonItem(pokemon: Pokemon, onClick: () -> Unit) {
             if (palette != null) {
                 Spacer(modifier = Modifier.height(5.dp))
                 PokeShopText(
-                    modifier = Modifier.padding(horizontal = 5.dp),
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .pokemonSharedBounds(
+                            pokemonId = pokemon.id,
+                            type = PokemonSharedElementType.NAME,
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            enabled = LocalInspectionMode.current
+                        ),
                     text = pokemon.name,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
