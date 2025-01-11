@@ -35,6 +35,4 @@ By combining advanced tools and best practices, **PokeShop** is an excellent res
 
 ## Screenshots
 
-<img src="docs/images/preview_home.gif" alt="Screenshot showing Pokemon list" width="300">
-<img src="docs/images/preview_pokemon_details.gif" alt="Screenshot showing Pokemon details" width="300">
-
+![Screenshot showing Pokemon list](docs/images/preview.gif "Screenshot showing PokeShop app")
