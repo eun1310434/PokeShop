@@ -27,7 +27,7 @@ kotlinxSerializationJson = "1.8.0"
 timber = "5.0.1"
 androidxHiltNavigationCompose = "1.2.0"
 androidxNavigation = "2.8.5"
-androidxLifecycle = "2.8.7"
+androidxLifecycle = "2.9.0"
 kotlinxImmutable = "0.3.8"
 
 # @keep
