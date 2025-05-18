@@ -29,6 +29,7 @@ androidxHiltNavigationCompose = "1.2.0"
 androidxNavigation = "2.9.0"
 androidxLifecycle = "2.9.0"
 kotlinxImmutable = "0.3.8"
+euntaek-ui-component = "0.0.5"
 
 # @keep
 minSdk = "29" # Used in Projectverion.kt
@@ -96,6 +97,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-immutable-collection = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 androidx-palette-ktx = { group = "androidx.palette", name = "palette-ktx", version.ref = "paletteKtx" }
+euntaek-ui-component = { module = "com.github.eun1310434:Component", version.ref = "euntaek-ui-component" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

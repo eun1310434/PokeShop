@@ -30,13 +30,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.palette.graphics.Palette
-import com.euntaek.pokeshop.core.designsystem.component.CachedAsyncImage
 import com.euntaek.pokeshop.core.designsystem.component.PokeShopText
 import com.euntaek.pokeshop.core.designsystem.component.PokemonSharedElementType
 import com.euntaek.pokeshop.core.designsystem.component.pokemonSharedBounds
 import com.euntaek.pokeshop.core.designsystem.theme.addOpacity
 import com.euntaek.pokeshop.core.designsystem.theme.getDominantColor
 import com.euntaek.pokeshop.core.model.Pokemon
+import com.euntaek.uicomponent.cachedasyncImage.CachedAsyncImage
 
 @Composable
 internal fun SharedTransitionScope.PokemonDetailsScreen(
@@ -106,7 +106,7 @@ private fun SharedTransitionScope.PokemonCard(
                     enabled = LocalInspectionMode.current
                 ),
             placeholderDrawableResId = com.euntaek.pokeshop.core.designsystem.R.drawable.pokeball,
-            imageURL = pokemon.gifUrl,
+            imageUrl = pokemon.gifUrl,
             onPalette = { palette = it }
         )
     }

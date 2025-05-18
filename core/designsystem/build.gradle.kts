@@ -16,6 +16,7 @@ dependencies {
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.foundation.layout)
     api(libs.androidx.material3)
+    api(libs.euntaek.ui.component)
 
     // Image background
     api(libs.androidx.palette.ktx)

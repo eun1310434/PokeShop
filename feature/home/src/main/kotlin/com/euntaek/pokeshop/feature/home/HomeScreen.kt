@@ -42,13 +42,13 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import androidx.palette.graphics.Palette
-import com.euntaek.pokeshop.core.designsystem.component.CachedAsyncImage
 import com.euntaek.pokeshop.core.designsystem.component.PokeShopText
 import com.euntaek.pokeshop.core.designsystem.component.PokemonSharedElementType
 import com.euntaek.pokeshop.core.designsystem.component.pokemonSharedBounds
 import com.euntaek.pokeshop.core.designsystem.theme.toBrush
 import com.euntaek.pokeshop.core.designsystem.util.isLandScape
 import com.euntaek.pokeshop.core.model.Pokemon
+import com.euntaek.uicomponent.cachedasyncImage.CachedAsyncImage
 
 @Composable
 internal fun SharedTransitionScope.HomeScreen(
@@ -138,7 +138,7 @@ private fun SharedTransitionScope.PokemonItem(
                         enabled = LocalInspectionMode.current
                     ),
                 placeholderDrawableResId = com.euntaek.pokeshop.core.designsystem.R.drawable.pokeball,
-                imageURL = pokemon.imageUrl,
+                imageUrl = pokemon.imageUrl,
                 onPalette = { palette = it }
             )
             if (palette != null) {
